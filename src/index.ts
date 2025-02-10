@@ -106,7 +106,7 @@ app.use(cors())
 app.get("/", (req, res) => {
     res.send("Hello")
 })
-server.listen(3000, "0.0.0.0", () => {
+server.listen(3000, () => {
     console.log("Server is running")
 })
 
