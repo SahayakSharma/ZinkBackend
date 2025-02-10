@@ -11,10 +11,7 @@ app.use(cors({
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*",  // Change this to your frontend URL if needed
-        methods: ["GET", "POST"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true
+        origin:["http://localhost:3000","http://localhost:3000/connect","http://localhost:3000/*","*"],
     }
 });
 

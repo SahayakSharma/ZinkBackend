@@ -16,10 +16,7 @@ app.use((0, cors_1.default)({
 const server = (0, https_1.createServer)(app);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: "*", // Change this to your frontend URL if needed
-        methods: ["GET", "POST"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true
+        origin: ["http://localhost:3000", "http://localhost:3000/connect", "http://localhost:3000/*", "*"],
     }
 });
 const online = new Map();
