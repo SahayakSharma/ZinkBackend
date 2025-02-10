@@ -8,10 +8,12 @@ const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)({ origin: "*" }));
 const server = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: "*"
+        origin: "*",
+        methods: ["GET", "POST"]
     }
 });
 const online = new Map();
@@ -19,9 +21,9 @@ const onCall = new Map();
 io.on("connection", (socket) => {
     socket.on("CameOnline", (data) => {
         const email = data.email;
-        console.log(email, " came online");
+        // console.log(email," came online")
         online.set(email, socket.id);
-        console.log("Map after adding : ", online);
+        // console.log("Map after adding : ",online)
     });
     socket.on("WentOffline", (data) => {
         const email = data.email;
@@ -62,10 +64,10 @@ io.on("connection", (socket) => {
         const email = data.email;
         const isonline = online.get(email);
         const isoncall = onCall.get(email);
-        console.log("Logging online : ", isonline);
-        console.log("Logging oncall : ", isoncall);
-        console.log("online map : ", online);
-        console.log("oncall map : ", onCall);
+        // console.log("Logging online : ",isonline)
+        // console.log("Logging oncall : ",isoncall)
+        // console.log("online map : " , online)
+        // console.log("oncall map : " , onCall)
         if (isoncall)
             socket.emit("UserStatus", { status: "onCall" });
         else if (isonline)
@@ -111,8 +113,8 @@ app.use((0, cors_1.default)());
 app.get("/", (req, res) => {
     res.send("Hello");
 });
-server.listen(5000, () => {
-    console.log("Listening on port 5k");
+server.listen(3000, () => {
+    // console.log("Listening on port 5k")
 });
 // socket.on("join-room", data => {
 //     const roomid = data.roomid;
