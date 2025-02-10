@@ -3,12 +3,18 @@ import { createServer } from "http"
 import { Server } from "socket.io"
 import cors from "cors"
 const app = express();
-app.use(cors({origin:["localhost:3000/","localhost:3000/*"]}))
+app.use(cors({ 
+    origin: "*", 
+    methods: ["GET", "POST"], 
+    allowedHeaders: ["Content-Type"] 
+}));
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ["localhost:3000/","localhost:3000/*","*",":"],
-        methods: ["GET", "POST"]
+        origin: "*",  // Change this to your frontend URL if needed
+        methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type"],
+        credentials: true
     }
 });
 
