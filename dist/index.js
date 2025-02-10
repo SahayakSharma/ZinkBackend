@@ -12,7 +12,7 @@ app.use((0, cors_1.default)({ origin: ["localhost:3000/", "localhost:3000/*"] })
 const server = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: ["localhost:3000/", "localhost:3000/*"],
+        origin: ["localhost:3000/", "localhost:3000/*", "*", ":"],
         methods: ["GET", "POST"]
     }
 });
