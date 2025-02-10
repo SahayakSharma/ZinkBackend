@@ -107,7 +107,7 @@ app.get("/", (req, res) => {
     res.send("Hello")
 })
 server.listen(3000, () => {
-    // console.log("Listening on port 5k")
+    console.log("Server is running")
 })
 
 
