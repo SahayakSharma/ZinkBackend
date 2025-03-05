@@ -1,10 +1,11 @@
 import express from "express"
+import http from 'http';
 import { createServer } from "https"
 import { Server } from "socket.io"
 import cors from "cors"
 const app = express();
 app.use(cors({origin:"*"}));
-const server = createServer(app);
+const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin:"*",
@@ -17,9 +18,7 @@ const onCall:Map<string,string>=new Map();
 io.on("connection", (socket) => {
     socket.on("CameOnline",(data)=>{
         const email=data.email;
-        // console.log(email," came online")
         online.set(email,socket.id);
-        // console.log("Map after adding : ",online)
     })
 
     socket.on("WentOffline",(data)=>{
@@ -60,10 +59,6 @@ io.on("connection", (socket) => {
         const email=data.email;
         const isonline=online.get(email);
         const isoncall=onCall.get(email);
-        // console.log("Logging online : ",isonline)
-        // console.log("Logging oncall : ",isoncall)
-        // console.log("online map : " , online)
-        // console.log("oncall map : " , onCall)
         if(isoncall) socket.emit("UserStatus",{status:"onCall"});
         else if(isonline) socket.emit("UserStatus",{status:"online"});
         else socket.emit("UserStatus",{status:"offline"})
@@ -110,34 +105,3 @@ server.listen(3000, () => {
     console.log("Server is running")
 })
 
-
-// socket.on("join-room", data => {
-//     const roomid = data.roomid;
-//     const roomSocket = io.sockets.adapter.rooms.get(roomid)
-//     if(roomSocket){
-//         const roomMembers=Array.from(roomSocket);
-//         io.to(socket.id).emit("roomMembers",{
-//             roomMembers:roomMembers
-//         })
-//     }
-//     socket.join(roomid)
-
-// })
-// socket.on("sendingOffer",data=>{
-//     const offer=data.offer;
-//     const senderid=data.senderid;
-//     const sendingto=data.sendingto;
-//     io.to(sendingto).emit("offerReceived",{
-//         offer:offer,
-//         sentby:senderid
-//     })
-// })
-// socket.on("sendAnswerTo",(data)=>{
-//     const answer=data.answer;
-//     const sendto=data.sendto;
-//     const sentby=data.sentby;
-//     io.to(sendto).emit("answerReceived",{
-//         answer:answer,
-//         sentby:sentby
-//     })
-// })

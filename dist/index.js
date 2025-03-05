@@ -4,19 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const https_1 = require("https");
+const http_1 = __importDefault(require("http"));
 const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-}));
-const server = (0, https_1.createServer)(app);
+app.use((0, cors_1.default)({ origin: "*" }));
+const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: ["http://localhost:3000", "http://localhost:3000/connect", "http://localhost:3000/*", "*"],
+        origin: "*",
     }
 });
 const online = new Map();
@@ -117,34 +113,5 @@ app.get("/", (req, res) => {
     res.send("Hello");
 });
 server.listen(3000, () => {
-    // console.log("Listening on port 5k")
+    console.log("Server is running");
 });
-// socket.on("join-room", data => {
-//     const roomid = data.roomid;
-//     const roomSocket = io.sockets.adapter.rooms.get(roomid)
-//     if(roomSocket){
-//         const roomMembers=Array.from(roomSocket);
-//         io.to(socket.id).emit("roomMembers",{
-//             roomMembers:roomMembers
-//         })
-//     }
-//     socket.join(roomid)
-// })
-// socket.on("sendingOffer",data=>{
-//     const offer=data.offer;
-//     const senderid=data.senderid;
-//     const sendingto=data.sendingto;
-//     io.to(sendingto).emit("offerReceived",{
-//         offer:offer,
-//         sentby:senderid
-//     })
-// })
-// socket.on("sendAnswerTo",(data)=>{
-//     const answer=data.answer;
-//     const sendto=data.sendto;
-//     const sentby=data.sentby;
-//     io.to(sendto).emit("answerReceived",{
-//         answer:answer,
-//         sentby:sentby
-//     })
-// })
